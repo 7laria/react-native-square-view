@@ -1,40 +1,42 @@
-'use strict';
 
-var React = require('react-native');
+import React,{Component} from 'react'
 
-var {
+import {
   View
-} = React;
+} from 'react-native'
 
-var SquareView = React.createClass({
-  getInitialState: function() {
-    return {
-      width: 0,
+export default class SquareView extends Component{
+
+  constructor(props) {
+    super(props);
+  
+    this.state = {width: 0,
       height: 0,
-      direction: 'row' // 'column' and 'row'
-    };
-  },
-  render: function() {
+      direction: 'row' // 'column' and 'row'};
+
+  }}
+
+  render(){
     var square = (
       <View
-        {...this.props}
-        style={
-          [this.props.style,
-          {width: this.state.width, height: this.state.height}]
-        }
-        onLayout={event => {
-          var {width, height} = event.nativeEvent.layout;
-          var sideLength = Math.max(width, height);
+      {...this.props}
+      style={
+        [this.props.style,
+        {width: this.state.width, height: this.state.height}]
+      }
+      onLayout={event => {
+        var {width, height} = event.nativeEvent.layout;
+        var sideLength = Math.max(width, height);
 
-          if (sideLength) {
-            this.setState({width: sideLength, height: sideLength});
-          } else {
-            this.setState({direction: 'column'});
-          }
-        }}>
-        {this.props.children}
+        if (sideLength) {
+          this.setState({width: sideLength, height: sideLength});
+        } else {
+          this.setState({direction: 'column'});
+        }
+      }}>
+      {this.props.children}
       </View>
-    );
+      );
 
     switch (this.state.direction) {
       case 'column': return square;
@@ -42,6 +44,4 @@ var SquareView = React.createClass({
       default: return null;
     }
   }
-});
-
-module.exports = SquareView;
+}
